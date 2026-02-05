@@ -4,8 +4,8 @@ body {
   min-height: 100vh;
   background: linear-gradient(
     180deg,
-    #ffe0ec 0%,
-    #ffd6e5 30%,
+    #ffe6ef 0%,
+    #ffd6e8 30%,
     #ffeaf3 60%,
     #fff7fb 100%
   );
@@ -13,47 +13,51 @@ body {
   color: #5a2a3a;
 }
 
-/* Floating hearts */
+/* Falling hearts */
 body::before {
   content: "❤ ❤ ❤ ❤ ❤ ❤ ❤";
   position: fixed;
-  top: -15%;
+  top: -20%;
   left: 0;
   width: 100%;
   text-align: center;
-  font-size: 2.5rem;
+  font-size: 2.6rem;
   color: rgba(255, 120, 160, 0.35);
-  animation: heartsFall 18s linear infinite;
+  animation: heartsFall 16s linear infinite;
   pointer-events: none;
+  z-index: 0;
 }
 
-/* Floating clouds */
+/* Soft clouds */
 body::after {
   content: "";
   position: fixed;
-  top: 15%;
+  top: 10%;
   left: -50%;
   width: 200%;
   height: 300px;
   background:
-    radial-gradient(circle at 20% 50%, rgba(255,255,255,0.6) 0%, transparent 60%),
-    radial-gradient(circle at 50% 60%, rgba(255,255,255,0.6) 0%, transparent 65%),
-    radial-gradient(circle at 80% 50%, rgba(255,255,255,0.6) 0%, transparent 60%);
-  animation: cloudsMove 60s linear infinite;
+    radial-gradient(circle at 20% 60%, rgba(255,255,255,0.6) 0%, transparent 65%),
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.6) 0%, transparent 65%),
+    radial-gradient(circle at 80% 60%, rgba(255,255,255,0.6) 0%, transparent 65%);
+  animation: cloudsMove 70s linear infinite;
   pointer-events: none;
+  z-index: 0;
 }
 
 @keyframes heartsFall {
   0% { transform: translateY(0); }
-  100% { transform: translateY(140vh); }
+  100% { transform: translateY(150vh); }
 }
 
 @keyframes cloudsMove {
   0% { transform: translateX(0); }
-  100% { transform: translateX(50%); }
+  100% { transform: translateX(40%); }
 }
 
 .container {
+  position: relative;
+  z-index: 1;
   max-width: 900px;
   margin: auto;
   padding: 100px 20px;
@@ -80,30 +84,30 @@ p {
 img {
   width: 100%;
   max-width: 360px;
-  border-radius: 20px;
+  border-radius: 22px;
   margin: 25px;
-  box-shadow: 0 12px 35px rgba(255, 160, 190, 0.55);
+  box-shadow: 0 14px 35px rgba(255, 160, 190, 0.6);
   transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
 img:hover {
   transform: scale(1.06);
-  box-shadow: 0 18px 45px rgba(255, 140, 180, 0.75);
+  box-shadow: 0 20px 45px rgba(255, 140, 180, 0.8);
 }
 
 button {
   margin: 45px 14px 0;
-  padding: 15px 36px;
+  padding: 15px 38px;
   font-size: 1.05rem;
   border: none;
   border-radius: 40px;
-  background: linear-gradient(135deg, #ff9eb5, #ffb3c7);
+  background: linear-gradient(135deg, #ff9eb5, #ffbfd1);
   color: #5a2a3a;
   cursor: pointer;
   transition: all 0.35s ease;
 }
 
 button:hover {
-  background: linear-gradient(135deg, #ffb3c7, #ffd1dc);
+  background: linear-gradient(135deg, #ffbfd1, #ffe0ec);
   transform: translateY(-3px);
 }
