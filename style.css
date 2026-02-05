@@ -1,15 +1,41 @@
 body {
   margin: 0;
   font-family: 'Georgia', serif;
-  background: linear-gradient(#0f2027, #203a43, #2c5364);
-  color: #fff;
-  text-align: center;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #ffe4ec, #ffd1dc, #fff0f5);
+  overflow-x: hidden;
+  color: #4a2c2a;
+}
+
+/* Floating hearts */
+body::before {
+  content: "❤ ❤ ❤ ❤ ❤";
+  position: fixed;
+  top: -10%;
+  left: 0;
+  width: 100%;
+  font-size: 3rem;
+  color: rgba(255, 105, 135, 0.25);
+  animation: floatHearts 20s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes floatHearts {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(120vh); }
 }
 
 .container {
   max-width: 900px;
   margin: auto;
-  padding: 80px 20px;
+  padding: 90px 20px;
+  text-align: center;
+  animation: fadeIn 1.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 h1 {
@@ -19,27 +45,35 @@ h1 {
 
 p {
   font-size: 1.2rem;
-  line-height: 1.8;
-}
-
-button {
-  margin-top: 50px;
-  padding: 15px 35px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 30px;
-  background: #ffb6c1;
-  color: #000;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #ffd1dc;
+  line-height: 1.9;
 }
 
 img {
   width: 100%;
   max-width: 350px;
-  border-radius: 12px;
-  margin: 20px;
+  border-radius: 16px;
+  margin: 25px;
+  box-shadow: 0 10px 25px rgba(255, 182, 193, 0.5);
+  transition: transform 0.4s ease;
+}
+
+img:hover {
+  transform: scale(1.05);
+}
+
+button {
+  margin: 40px 12px 0;
+  padding: 14px 32px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 30px;
+  background: #ff9aa2;
+  color: #4a2c2a;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: #ffb7c5;
+  transform: translateY(-2px);
 }
