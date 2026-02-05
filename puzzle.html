@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Little Puzzle 🤍</title>
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #ffe6ec, #fff5f8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Georgia', serif;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 420px;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #6b2d3a;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #7a3b47;
+      margin-bottom: 20px;
+      font-size: 15px;
+    }
+
+    .puzzle {
+      width: 300px;
+      height: 300px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 2px;
+      background: #f4c2cc;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .tile {
+      background-image: url("IMG_4064.jpeg");
+      background-size: 300px 300px;
+      cursor: pointer;
+    }
+
+    .empty {
+      background: none;
+      cursor: default;
+    }
+
+    .message {
+      display: none;
+      margin-top: 20px;
+      color: #6b2d3a;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 30px;
+      background: #ffb6c1;
+      color: #5a1f2d;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #ff9fb2;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Solve This 🤍</h1>
+  <p>
+    Put the pieces together.<br>
+    Just like we always do.
+  </p>
+
+  <div class="puzzle" id="puzzle"></div>
+
+  <div class="message" id="message">
+    You did it. 🤍<br>
+    Maybe because some things<br>
+    are meant to fit.
+  </div>
+
+  <button onclick="location.href='moments.html'">← Back</button>
+</div>
+
+<script>
+  const puzzle = document.getElementById("puzzle");
+  const message = document.getElementById("message");
+
+  const size = 3;
+  let tiles = [];
+
+  function createTiles() {
+    tiles = [];
+    for (let i = 0; i < size * size; i++) {
+      tiles.push(i);
+    }
+    shuffle(tiles);
+    render();
+  }
+
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
+  function render() {
+    puzzle.innerHTML = "";
+    tiles.forEach((tile, index) => {
+      const div = document.createElement("div");
+      if (tile === size * size - 1) {
+        div.className = "tile empty";
+      } else {
+        div.className = "tile";
+        const x = (tile % size) * -100;
+        const y = Math.floor(tile / size) * -100;
+        div.style.backgroundPosition = `${x}px ${y}px`;
+        div.onclick = () => move(index);
+      }
+      puzzle.appendChild(div);
+    });
+  }
+
+  function move(index) {
+    const emptyIndex = tiles.indexOf(size * size - 1);
+    const validMoves = [
+      emptyIndex - 1,
+      emptyIndex + 1,
+      emptyIndex - size,
+      emptyIndex + size
+    ];
+
+    if (validMoves.includes(index)) {
+      [tiles[index], tiles[emptyIndex]] = [tiles[emptyIndex], tiles[index]];
+      render();
+      checkWin();
+    }
+  }
+
+  function checkWin() {
+    for (let i = 0; i < tiles.length; i++) {
+      if (tiles[i] !== i) return;
+    }
+    message.style.display = "block";
+  }
+
+  createTiles();
+</script>
+
+</body>
+</html>
