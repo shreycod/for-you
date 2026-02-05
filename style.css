@@ -1,0 +1,45 @@
+body {
+  margin: 0;
+  font-family: 'Georgia', serif;
+  background: linear-gradient(#0f2027, #203a43, #2c5364);
+  color: #fff;
+  text-align: center;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 80px 20px;
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 1.2rem;
+  line-height: 1.8;
+}
+
+button {
+  margin-top: 50px;
+  padding: 15px 35px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 30px;
+  background: #ffb6c1;
+  color: #000;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #ffd1dc;
+}
+
+img {
+  width: 100%;
+  max-width: 350px;
+  border-radius: 12px;
+  margin: 20px;
+}
