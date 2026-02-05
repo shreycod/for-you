@@ -1,104 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>A Little Puzzle 🤍</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One Little Puzzle 🤍</title>
 
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: linear-gradient(180deg, #ffe6ec, #fff5f8);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: 'Georgia', serif;
-      text-align: center;
-    }
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #ffe6ee, #fff8fb);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Georgia', serif;
+    overflow-x: hidden;
+  }
 
-    .container {
-      max-width: 420px;
-      padding: 20px;
-    }
+  .container {
+    max-width: 420px;
+    padding: 20px;
+    text-align: center;
+  }
 
-    h1 {
-      color: #6b2d3a;
-      margin-bottom: 10px;
-    }
+  h1 {
+    color: #6b2d3a;
+    margin-bottom: 8px;
+  }
 
-    p {
-      color: #7a3b47;
-      margin-bottom: 20px;
-      font-size: 15px;
-    }
+  p {
+    color: #7a3b47;
+    font-size: 15px;
+    margin-bottom: 18px;
+  }
 
-    .puzzle {
-      width: 300px;
-      height: 300px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(3, 1fr);
-      gap: 2px;
-      background: #f4c2cc;
-      border-radius: 12px;
-      overflow: hidden;
-    }
+  .puzzle {
+    width: 320px;
+    height: 320px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 2px;
+    background: #f7c6d0;
+    border-radius: 14px;
+    overflow: hidden;
+  }
 
-    .tile {
-      background-image: url("IMG_4064.jpeg");
-      background-size: 300px 300px;
-      cursor: pointer;
-    }
+  .tile {
+    background-image: url("IMG_4064.jpeg");
+    background-size: 320px 320px;
+    cursor: pointer;
+  }
 
-    .empty {
-      background: none;
-      cursor: default;
-    }
+  .empty {
+    background: none;
+    cursor: default;
+  }
 
-    .message {
-      display: none;
-      margin-top: 20px;
-      color: #6b2d3a;
-      font-size: 16px;
-    }
+  .locked {
+    display: none;
+    margin-top: 22px;
+    color: #6b2d3a;
+    font-size: 16px;
+    animation: fadeIn 1.2s ease;
+  }
 
-    button {
-      margin-top: 20px;
-      padding: 12px 22px;
-      border: none;
-      border-radius: 30px;
-      background: #ffb6c1;
-      color: #5a1f2d;
-      font-size: 14px;
-      cursor: pointer;
-    }
+  button {
+    margin-top: 20px;
+    padding: 12px 26px;
+    border: none;
+    border-radius: 30px;
+    background: #ffb6c1;
+    color: #5a1f2d;
+    font-size: 14px;
+    cursor: pointer;
+  }
 
-    button:hover {
-      background: #ff9fb2;
+  button:hover {
+    background: #ff9fb2;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .heart {
+    position: fixed;
+    bottom: -20px;
+    font-size: 18px;
+    animation: floatUp 3s linear forwards;
+    pointer-events: none;
+  }
+
+  @keyframes floatUp {
+    to {
+      transform: translateY(-120vh);
+      opacity: 0;
     }
-  </style>
+  }
+</style>
 </head>
 
 <body>
 
 <div class="container">
-  <h1>Solve This 🤍</h1>
+  <h1>Put Us Together 🤍</h1>
   <p>
-    Put the pieces together.<br>
-    Just like we always do.
+    Take your time.<br>
+    Some things are worth figuring out.
   </p>
 
   <div class="puzzle" id="puzzle"></div>
 
-  <div class="message" id="message">
-    You did it. 🤍<br>
-    Maybe because some things<br>
-    are meant to fit.
+  <div class="locked" id="message">
+    You did it. 🤍<br><br>
+    Not because it was easy.<br>
+    But because you stayed.<br><br>
+    Just like us.
   </div>
 
-  <button onclick="location.href='index.html'">
+ <button onclick="location.href='index.html'">
   Back to the beginning ♡
 </button>
 
@@ -108,22 +131,20 @@
   const puzzle = document.getElementById("puzzle");
   const message = document.getElementById("message");
 
-  const size = 3;
+  const size = 4;
   let tiles = [];
 
-  function createTiles() {
+  function init() {
     tiles = [];
-    for (let i = 0; i < size * size; i++) {
-      tiles.push(i);
-    }
+    for (let i = 0; i < size * size; i++) tiles.push(i);
     shuffle(tiles);
     render();
   }
 
-  function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
+  function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
+      [arr[i], arr[j]] = [arr[j], arr[i]];
     }
   }
 
@@ -131,30 +152,32 @@
     puzzle.innerHTML = "";
     tiles.forEach((tile, index) => {
       const div = document.createElement("div");
+
       if (tile === size * size - 1) {
         div.className = "tile empty";
       } else {
         div.className = "tile";
-        const x = (tile % size) * -100;
-        const y = Math.floor(tile / size) * -100;
+        const x = (tile % size) * -80;
+        const y = Math.floor(tile / size) * -80;
         div.style.backgroundPosition = `${x}px ${y}px`;
         div.onclick = () => move(index);
       }
+
       puzzle.appendChild(div);
     });
   }
 
   function move(index) {
-    const emptyIndex = tiles.indexOf(size * size - 1);
-    const validMoves = [
-      emptyIndex - 1,
-      emptyIndex + 1,
-      emptyIndex - size,
-      emptyIndex + size
+    const empty = tiles.indexOf(size * size - 1);
+    const valid = [
+      empty - 1,
+      empty + 1,
+      empty - size,
+      empty + size
     ];
 
-    if (validMoves.includes(index)) {
-      [tiles[index], tiles[emptyIndex]] = [tiles[emptyIndex], tiles[index]];
+    if (valid.includes(index)) {
+      [tiles[index], tiles[empty]] = [tiles[empty], tiles[index]];
       render();
       checkWin();
     }
@@ -164,12 +187,28 @@
     for (let i = 0; i < tiles.length; i++) {
       if (tiles[i] !== i) return;
     }
-    message.style.display = "block";
+    unlock();
   }
 
-  createTiles();
+  function unlock() {
+    message.style.display = "block";
+    hearts();
+  }
+
+  function hearts() {
+    for (let i = 0; i < 25; i++) {
+      const h = document.createElement("div");
+      h.className = "heart";
+      h.innerText = "💗";
+      h.style.left = Math.random() * 100 + "vw";
+      h.style.animationDuration = 2 + Math.random() * 2 + "s";
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 4000);
+    }
+  }
+
+  init();
 </script>
 
 </body>
 </html>
-
