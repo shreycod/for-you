@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>One Little Puzzle 🤍</title>
+<title>One Last Game 🤍</title>
 
 <style>
   body {
@@ -14,7 +14,6 @@
     justify-content: center;
     align-items: center;
     font-family: 'Georgia', serif;
-    overflow-x: hidden;
   }
 
   .container {
@@ -31,7 +30,7 @@
   p {
     color: #7a3b47;
     font-size: 15px;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
   }
 
   .puzzle {
@@ -42,7 +41,7 @@
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(4, 1fr);
     gap: 2px;
-    background: #f7c6d0;
+    background: #f6c1cb;
     border-radius: 14px;
     overflow: hidden;
   }
@@ -51,19 +50,20 @@
     background-image: url("IMG_4064.jpeg");
     background-size: 320px 320px;
     cursor: pointer;
+    transition: transform 0.15s;
   }
 
-  .empty {
-    background: none;
-    cursor: default;
+  .selected {
+    outline: 3px solid #ff9fb2;
+    z-index: 2;
   }
 
-  .locked {
+  .message {
     display: none;
-    margin-top: 22px;
+    margin-top: 20px;
     color: #6b2d3a;
     font-size: 16px;
-    animation: fadeIn 1.2s ease;
+    animation: fadeIn 1s ease;
   }
 
   button {
@@ -106,22 +106,23 @@
 <body>
 
 <div class="container">
-  <h1>Put Us Together 🤍</h1>
+  <h1>Fix Us 🤍</h1>
   <p>
-    Take your time.<br>
-    Some things are worth figuring out.
+    Tap two pieces to swap them.<br>
+    Some things just fall into place.
   </p>
 
   <div class="puzzle" id="puzzle"></div>
 
-  <div class="locked" id="message">
-    You did it. 🤍<br><br>
-    Not because it was easy.<br>
-    But because you stayed.<br><br>
-    Just like us.
+  <div class="message" id="message">
+    You did it 🤍<br><br>
+    Turns out,<br>
+    we were always meant to fit.
   </div>
 
- <button onclick="location.href='index.html'">
+  <button onclick="resetPuzzle()">Reset puzzle 🔁</button>
+
+<button onclick="location.href='index.html'">
   Back to the beginning ♡
 </button>
 
@@ -133,6 +134,7 @@
 
   const size = 4;
   let tiles = [];
+  let firstPick = null;
 
   function init() {
     tiles = [];
@@ -152,35 +154,30 @@
     puzzle.innerHTML = "";
     tiles.forEach((tile, index) => {
       const div = document.createElement("div");
+      div.className = "tile";
+      const x = (tile % size) * -80;
+      const y = Math.floor(tile / size) * -80;
+      div.style.backgroundPosition = `${x}px ${y}px`;
 
-      if (tile === size * size - 1) {
-        div.className = "tile empty";
-      } else {
-        div.className = "tile";
-        const x = (tile % size) * -80;
-        const y = Math.floor(tile / size) * -80;
-        div.style.backgroundPosition = `${x}px ${y}px`;
-        div.onclick = () => move(index);
-      }
-
+      div.onclick = () => selectTile(index, div);
       puzzle.appendChild(div);
     });
   }
 
-  function move(index) {
-    const empty = tiles.indexOf(size * size - 1);
-    const valid = [
-      empty - 1,
-      empty + 1,
-      empty - size,
-      empty + size
-    ];
-
-    if (valid.includes(index)) {
-      [tiles[index], tiles[empty]] = [tiles[empty], tiles[index]];
+  function selectTile(index, element) {
+    if (firstPick === null) {
+      firstPick = index;
+      element.classList.add("selected");
+    } else {
+      swap(firstPick, index);
+      firstPick = null;
       render();
       checkWin();
     }
+  }
+
+  function swap(i, j) {
+    [tiles[i], tiles[j]] = [tiles[j], tiles[i]];
   }
 
   function checkWin() {
@@ -208,6 +205,14 @@
   }
 
   init();
+</script>
+<script>
+  // reset puzzle so it can be played again
+  function resetPuzzle() {
+    message.style.display = "none";
+    firstPick = null;
+    init();
+  }
 </script>
 
 </body>
